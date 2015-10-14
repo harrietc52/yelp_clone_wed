@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+
+
 feature 'restaurants' do
   context 'no restaurants have been added' do
     scenario 'should display a prompt to add a restaurant' do
@@ -10,6 +12,7 @@ feature 'restaurants' do
   end
 
   context 'restaurants have been added' do
+
     before do
       Restaurant.create(name: 'KFC')
     end
@@ -22,13 +25,27 @@ feature 'restaurants' do
   end
 
   context 'creating restaurants' do
+
     scenario 'prompts user to fill out a form, then displays the new restaurant' do
-      visit '/restaurants'
+      user = create :user
+      p user.email
+      sign_up_as(user)
+      p current_path
+      click_link 'Add a restaurant'
+      p current_path
+      sign_in_as(user)
+      p current_path
       click_link 'Add a restaurant'
       fill_in 'Name', with: 'KFC'
       click_button 'Create Restaurant'
       expect(page).to have_content 'KFC'
       expect(current_path).to eq '/restaurants'
+    end
+
+    scenario "can not create rest if not signed in" do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      expect(page).to have_content 'Log in'
     end
 
     context 'an invalid restaurant' do
@@ -83,3 +100,21 @@ feature 'restaurants' do
   end
 
 end
+
+  def sign_up_as(user)
+    visit '/restaurants'
+    click_link('Sign up')
+    fill_in :email, with: user.email
+    fill_in :password, with: user.password
+    fill_in :password_confirmation, with: user.password_confirmation
+    click_button('Sign up')
+    visit '/restaurants'
+  end
+
+  def sign_in_as(user)
+    visit '/users/sign_in'
+    fill_in :email, with: user.email
+    fill_in :password, with: user.password
+    click_button 'Sign in'
+    visit '/restaurants'
+  end
