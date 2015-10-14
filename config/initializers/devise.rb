@@ -1,3 +1,4 @@
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -7,6 +8,8 @@ Devise.setup do |config|
   # Devise will use the `secret_key_base` on Rails 4+ applications as its `secret_key`
   # by default. You can change it below and use your own secret key.
   # config.secret_key = 'c12186984df5e5e55af37d85eeeb8b6dee53953dcfea5e51cd6c08972f2626bb8c2c40a55022cbd5285d49effec06ec9adcc7f57cc7900b0e74249007bd4a023'
+
+  config.omniauth :github, Rails.application.secrets.github_app_id, Rails.application.secrets.github_app_secret
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -260,3 +263,4 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 end
+

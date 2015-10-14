@@ -82,7 +82,4 @@ feature 'restaurants' do
     end
   end
 
-
-
-
 end
