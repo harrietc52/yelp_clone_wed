@@ -23,7 +23,6 @@ feature 'reviewing' do
     click_button 'Leave Review'
     click_link 'Delete KFC'
     expect(page).not_to have_content "so so"
-    expect(current_path).to eq '/restaurants'
   end
 
 end
